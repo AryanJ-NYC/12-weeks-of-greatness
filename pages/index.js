@@ -1,1 +1,3 @@
-export default () => <div>Welcome to next.js!</div>
+import Typography from '@material-ui/core/Typography';
+
+export default () => <Typography>Welcome to next.js!</Typography>
