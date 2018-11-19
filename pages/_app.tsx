@@ -1,18 +1,19 @@
-import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../lib/getPageContext';
 
 class MyApp extends App {
-  constructor(props) {
+  private pageContext: any;
+  constructor(props: any) {
     super(props);
     this.pageContext = getPageContext();
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
@@ -20,7 +21,7 @@ class MyApp extends App {
     }
   }
 
-  render() {
+  public render() {
     const { Component, pageProps } = this.props;
     return (
       <Container>
