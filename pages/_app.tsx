@@ -4,6 +4,7 @@ import App, { Container } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
+import Navbar from '../components/Navbar';
 import getPageContext from '../lib/getPageContext';
 
 class MyApp extends App {
@@ -13,7 +14,7 @@ class MyApp extends App {
     this.pageContext = getPageContext();
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
@@ -21,7 +22,7 @@ class MyApp extends App {
     }
   }
 
-  public render() {
+  render() {
     const { Component, pageProps } = this.props;
     return (
       <Container>
@@ -43,6 +44,7 @@ class MyApp extends App {
             <CssBaseline />
             {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
+            <Navbar />
             <Component pageContext={this.pageContext} {...pageProps} />
           </MuiThemeProvider>
         </JssProvider>
