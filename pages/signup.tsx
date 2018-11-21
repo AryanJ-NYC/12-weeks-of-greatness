@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { Form } from 'informed';
 import { Component } from 'react';
 import MaterialText from '../components/TextField';
@@ -11,13 +11,13 @@ interface ISignupForm {
 
 function FormContent() {
   return (
-    <div>
-      <label htmlFor="email-address">Email Address</label>
-      <MaterialText id="email-address" field="emailAddress" type="email" />
-      <label htmlFor="password">Password</label>
-      <MaterialText id="password" field="password" type="password" />
-      <Button type="submit">Submit</Button>
-    </div>
+    <Grid justify="center" container>
+      <Grid xs={11} sm={6} lg={4} style={{ display: 'flex', flexDirection: 'column' }} item>
+        <MaterialText label="Email Address" id="email-address" field="emailAddress" type="email" />
+        <MaterialText label="Password" id="password" field="password" type="password" />
+        <Button type="submit">Submit</Button>
+      </Grid>
+    </Grid>
   );
 }
 
