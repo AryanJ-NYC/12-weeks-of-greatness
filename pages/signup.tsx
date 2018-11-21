@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
-import { Form, Text } from 'informed';
+import { Form } from 'informed';
 import { Component } from 'react';
+import MaterialText from '../components/TextField';
 import firebase from '../lib/firebase';
 
 interface ISignupForm {
@@ -12,9 +13,9 @@ function FormContent() {
   return (
     <div>
       <label htmlFor="email-address">Email Address</label>
-      <Text id="email-address" field="emailAddress" type="email" />
+      <MaterialText id="email-address" field="emailAddress" type="email" />
       <label htmlFor="password">Password</label>
-      <Text id="password" field="password" type="password" />
+      <MaterialText id="password" field="password" type="password" />
       <Button type="submit">Submit</Button>
     </div>
   );
