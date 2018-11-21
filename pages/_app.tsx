@@ -1,9 +1,9 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import App, { Container } from 'next/app';
-import Head from 'next/head';
 import React from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
+import Meta from '../components/Meta';
 import Navbar from '../components/Navbar';
 import getPageContext from '../lib/getPageContext';
 
@@ -26,9 +26,7 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Container>
-        <Head>
-          <title>12 Weeks of Greatness</title>
-        </Head>
+        <Meta />
         {/* Wrap every page in Jss and Theme providers */}
         <JssProvider
           registry={this.pageContext.sheetsRegistry}
