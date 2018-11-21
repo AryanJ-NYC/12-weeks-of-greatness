@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "lint": "tslint --project tsconfig.json",
+    "lint:fix": "tslint --project tsconfig.json --fix",
     "export": "next export",
     "start": "next start"
   },
