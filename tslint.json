@@ -1,7 +1,8 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [ "tslint:recommended", "tslint-react" ],
   "rules": {
     "arrow-parens": [true, "ban-single-arg-parens"],
+    "jsx-boolean-value": ["never"],
     "quotemark": [ true, "single", "jsx-double" ],
     "member-access": [true, "no-public"],
     "object-literal-key-quotes": [true, "as-needed"]
