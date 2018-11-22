@@ -3,7 +3,7 @@ import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { isEmpty } from 'lodash';
 import Link from 'next/link';
 import { connect } from 'react-redux';
-import firebase from '../lib/firebase';
+import rebase from '../lib/firebase';
 
 const styles = createStyles({
   navLink: {
@@ -38,7 +38,7 @@ function renderLoggedOut(classes) {
 
 async function signout() {
   try {
-    await firebase.auth().signOut();
+    await rebase.initializedApp.auth().signOut();
   } catch (err) {
     throw new Error(err);
   }

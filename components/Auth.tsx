@@ -1,5 +1,6 @@
 import { Button, Grid } from '@material-ui/core';
 import { Form } from 'informed';
+import Router from 'next/router';
 import { Component } from 'react';
 import Snackbar from '../components/Snackbar';
 import MaterialText from '../components/TextField';
@@ -49,6 +50,7 @@ export default abstract class AuthComponent extends Component {
   handleSubmit = async (formState: ISignupForm): Promise<void> => {
     try {
       await this.submitToFirebase(formState);
+      Router.push('/dashboard');
       this.formApi.reset();
     } catch (err) {
       this.setState({ err });
