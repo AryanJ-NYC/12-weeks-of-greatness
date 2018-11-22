@@ -45,7 +45,7 @@ export default abstract class AuthComponent extends Component {
   }
   abstract async handleSubmit(formState: ISignupForm): Promise<void>;
 
-  private setFormApi(formApi) {
+  private setFormApi = formApi => {
     this.formApi = formApi;
   }
 }
