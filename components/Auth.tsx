@@ -1,11 +1,9 @@
 import { Button, Grid } from '@material-ui/core';
 import { Form } from 'informed';
 import { Component } from 'react';
-import { connect } from 'react-redux';
 import MaterialText from '../components/TextField';
-import firebase from '../lib/firebase';
 
-interface ISignupForm {
+export interface ISignupForm {
   emailAddress: string;
   password: string;
 }
@@ -22,35 +20,13 @@ function FormContent() {
   );
 }
 
-class SignupPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.setFormApi = this.setFormApi.bind(this);
-  }
-
+export default abstract class AuthComponent extends Component {
   render() {
     return <Form component={FormContent} getApi={this.setFormApi} onSubmit={this.handleSubmit} />;
   }
+  abstract async handleSubmit(formState: ISignupForm): Promise<void>;
 
   private setFormApi(formApi) {
     this.formApi = formApi;
   }
-
-  private async handleSubmit(formState: ISignupForm) {
-    const { emailAddress: email, password } = formState;
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
-      this.formApi.reset();
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
 }
-
-export default connect(
-  state => ({
-    user: state.userStore.user,
-  }),
-)(SignupPage);
