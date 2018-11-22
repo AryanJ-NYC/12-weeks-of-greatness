@@ -21,13 +21,13 @@ function FormContent() {
 }
 
 class SignupPage extends AuthComponent {
-  private async handleSubmit(formState: ISignupForm) {
+  private handleSubmit = async (formState: ISignupForm) => {
     const { emailAddress: email, password } = formState;
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
       this.formApi.reset();
     } catch (err) {
-      throw new Error(err);
+      this.setState({ err });
     }
   }
 }

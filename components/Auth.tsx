@@ -1,6 +1,7 @@
 import { Button, Grid } from '@material-ui/core';
 import { Form } from 'informed';
 import { Component } from 'react';
+import Snackbar from '../components/Snackbar';
 import MaterialText from '../components/TextField';
 
 export interface ISignupForm {
@@ -21,8 +22,26 @@ function FormContent() {
 }
 
 export default abstract class AuthComponent extends Component {
+  state = { err: null };
+
+  handleSnackbarClose = (_, reason: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ err: null });
+  }
+
   render() {
-    return <Form component={FormContent} getApi={this.setFormApi} onSubmit={this.handleSubmit} />;
+    return (
+      <>
+        <Form component={FormContent} getApi={this.setFormApi} onSubmit={this.handleSubmit} />
+        <Snackbar
+          handleClose={this.handleSnackbarClose}
+          isOpen={!!this.state.err}
+          message={this.state.err?.message}
+        />
+      </>
+    );
   }
   abstract async handleSubmit(formState: ISignupForm): Promise<void>;
 
