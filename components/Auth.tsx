@@ -22,6 +22,7 @@ function FormContent() {
 }
 
 export default abstract class AuthComponent extends Component {
+  formApi: any;
   state = { err: null };
 
   handleSnackbarClose = (_, reason: string) => {
@@ -43,9 +44,18 @@ export default abstract class AuthComponent extends Component {
       </>
     );
   }
-  abstract async handleSubmit(formState: ISignupForm): Promise<void>;
+  abstract async submitToFirebase(formState: ISignupForm): Promise<any>;
 
-  private setFormApi = formApi => {
+  handleSubmit = async (formState: ISignupForm): Promise<void> => {
+    try {
+      await this.submitToFirebase(formState);
+      this.formApi.reset();
+    } catch (err) {
+      this.setState({ err });
+    }
+  }
+
+  private setFormApi = (formApi: any) => {
     this.formApi = formApi;
   }
 }
