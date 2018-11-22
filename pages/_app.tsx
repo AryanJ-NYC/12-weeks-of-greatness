@@ -3,9 +3,11 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import App, { Container } from 'next/app';
 import React from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
+import { Provider } from 'react-redux';
 import Meta from '../components/Meta';
 import Navbar from '../components/Navbar';
 import getPageContext from '../lib/getPageContext';
+import withReduxStore from '../lib/withReduxStore';
 
 class MyApp extends App {
   private pageContext: any;
@@ -23,32 +25,36 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
     return (
       <Container>
-        <Meta />
-        {/* Wrap every page in Jss and Theme providers */}
-        <JssProvider
-          registry={this.pageContext.sheetsRegistry}
-          generateClassName={this.pageContext.generateClassName}
-        >
-          {/* MuiThemeProvider makes the theme available down the React
-              tree thanks to React context. */}
-          <MuiThemeProvider
-            theme={this.pageContext.theme}
-            sheetsManager={this.pageContext.sheetsManager}
+          <Meta />
+          {/* Wrap every page in Jss and Theme providers */}
+          <JssProvider
+            registry={this.pageContext.sheetsRegistry}
+            generateClassName={this.pageContext.generateClassName}
           >
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            {/* Pass pageContext to the _document though the renderPage enhancer
-                to render collected styles on server side. */}
-            <Navbar />
-            <Component pageContext={this.pageContext} {...pageProps} />
-          </MuiThemeProvider>
-        </JssProvider>
+            {/* MuiThemeProvider makes the theme available down the React
+                tree thanks to React context. */}
+            <MuiThemeProvider
+              theme={this.pageContext.theme}
+              sheetsManager={this.pageContext.sheetsManager}
+            >
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              {/* Pass pageContext to the _document though the renderPage enhancer
+                  to render collected styles on server side. */}
+              <Provider store={reduxStore}>
+                <>
+                  <Navbar />
+                  <Component pageContext={this.pageContext} {...pageProps} />
+                </>
+              </Provider>
+            </MuiThemeProvider>
+          </JssProvider>
       </Container>
     );
   }
 }
 
-export default MyApp;
+export default withReduxStore(MyApp);
