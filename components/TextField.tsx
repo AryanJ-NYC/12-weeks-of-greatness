@@ -11,13 +11,13 @@ const MaterialText = asField(({ fieldState, fieldApi, ...props }) => {
         {...rest}
         ref={forwardedRef}
         value={!value && value !== 0 ? '' : value}
-        onChange={(e) => {
+        onChange={e => {
           setValue(e.target.value);
           if (onChange) {
             onChange(e);
           }
         }}
-        onBlur={(e) => {
+        onBlur={e => {
           setTouched();
           if (onBlur) {
             onBlur(e);
