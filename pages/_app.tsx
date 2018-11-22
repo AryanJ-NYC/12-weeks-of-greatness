@@ -6,8 +6,10 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import { Provider } from 'react-redux';
 import Meta from '../components/Meta';
 import Navbar from '../components/Navbar';
+import firebase from '../lib/firebase';
 import getPageContext from '../lib/getPageContext';
 import withReduxStore from '../lib/withReduxStore';
+import { setUser } from '../store/actions/user';
 
 class MyApp extends App {
   private pageContext: any;
@@ -22,6 +24,10 @@ class MyApp extends App {
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
+    const { dispatch } = this.props.reduxStore;
+    firebase.auth().onAuthStateChanged(user => {
+      dispatch(setUser(user));
+    });
   }
 
   render() {

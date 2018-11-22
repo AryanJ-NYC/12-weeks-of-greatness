@@ -18,6 +18,7 @@
     "firebase": "^5.5.9",
     "informed": "^1.10.9",
     "jss": "^9.8.7",
+    "lodash": "^4.17.11",
     "next": "^7.0.2",
     "re-base": "^4.0.0",
     "react": "^16.6.3",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/firebase": "^3.2.1",
+    "@types/lodash": "^4.14.118",
     "@types/next": "^7.0.5",
     "@types/re-base": "^3.2.0",
     "@types/react-jss": "^8.6.0",
