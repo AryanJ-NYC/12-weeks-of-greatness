@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MaterialText from '../components/TextField';
 import rebase from '../lib/firebase';
+import withAuth from '../lib/withAuth';
 
 function New12WeekYearFormContent() {
   return (
@@ -37,4 +38,4 @@ export default connect(
   state => ({
     user: state.userStore.user,
   }),
-)(DashboardPage);
+)(withAuth(DashboardPage));
