@@ -5,7 +5,7 @@ import React from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { Provider } from 'react-redux';
 import Meta from '../components/Meta';
-import Navbar from '../components/Navbar';
+import Page from '../layouts/main';
 import rebase from '../lib/firebase';
 import getPageContext from '../lib/getPageContext';
 import withReduxStore from '../lib/withReduxStore';
@@ -15,6 +15,7 @@ class MyApp extends App {
   private pageContext: any;
   constructor(props: any) {
     super(props);
+    this.state = { isLoading: true };
     this.pageContext = getPageContext();
   }
 
@@ -27,6 +28,7 @@ class MyApp extends App {
     const { dispatch } = this.props.reduxStore;
     rebase.initializedApp.auth().onAuthStateChanged(user => {
       dispatch(setUser(user));
+      this.setState({ isLoading: false });
     });
   }
 
@@ -40,21 +42,16 @@ class MyApp extends App {
             registry={this.pageContext.sheetsRegistry}
             generateClassName={this.pageContext.generateClassName}
           >
-            {/* MuiThemeProvider makes the theme available down the React
-                tree thanks to React context. */}
             <MuiThemeProvider
               theme={this.pageContext.theme}
               sheetsManager={this.pageContext.sheetsManager}
             >
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
-              {/* Pass pageContext to the _document though the renderPage enhancer
-                  to render collected styles on server side. */}
               <Provider store={reduxStore}>
-                <>
-                  <Navbar />
+                <Page isLoading={this.state.isLoading}>
                   <Component pageContext={this.pageContext} {...pageProps} />
-                </>
+                </Page>
               </Provider>
             </MuiThemeProvider>
           </JssProvider>
