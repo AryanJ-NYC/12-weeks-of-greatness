@@ -1,9 +1,10 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Form } from 'informed';
 import Router from 'next/router';
 import { Component } from 'react';
+import Centered from '../components/Centered';
 import Snackbar from '../components/Snackbar';
-import MaterialText from '../components/TextField';
+import MaterialText from './MaterialTextField';
 
 export interface ISignupForm {
   emailAddress: string;
@@ -12,13 +13,11 @@ export interface ISignupForm {
 
 function FormContent() {
   return (
-    <Grid justify="center" container>
-      <Grid xs={11} sm={6} lg={4} style={{ display: 'flex', flexDirection: 'column' }} item>
-        <MaterialText label="Email Address" id="email-address" field="emailAddress" type="email" />
-        <MaterialText label="Password" id="password" field="password" type="password" />
-        <Button type="submit">Submit</Button>
-      </Grid>
-    </Grid>
+    <Centered>
+      <MaterialText label="Email Address" id="email-address" field="emailAddress" type="email" />
+      <MaterialText label="Password" id="password" field="password" type="password" />
+      <Button type="submit">Submit</Button>
+    </Centered>
   );
 }
 
@@ -26,7 +25,7 @@ export default abstract class AuthComponent extends Component {
   formApi: any;
   state = { err: null };
 
-  handleSnackbarClose = (_, reason: string) => {
+  handleSnackbarClose = (_: any, reason: string) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -40,7 +39,7 @@ export default abstract class AuthComponent extends Component {
         <Snackbar
           handleClose={this.handleSnackbarClose}
           isOpen={!!this.state.err}
-          message={this.state.err?.message}
+          message={this.state.err?.message }
         />
       </>
     );

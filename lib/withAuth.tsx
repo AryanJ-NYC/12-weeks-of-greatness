@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { Component } from 'react';
 import rebase from '../lib/firebase';
 
-export default function withAuth(AuthComponent) {
+export default function withAuth(AuthComponent: React.Component) {
     return class Authenticated extends Component {
       constructor(props) {
         super(props);
@@ -26,13 +26,9 @@ export default function withAuth(AuthComponent) {
       render() {
         return (
           <div>
-          {this.state.isLoading ? (
-              <div>LOADING....</div>
-            ) : (
-              <AuthComponent {...this.props}  user={this.state.user} />
-            )}
+            {this.state.isLoading ? <div>LOADING....</div> : <AuthComponent {...this.props}  user={this.state.user} />}
           </div>
-        )
+        );
       }
-    }
+    };
 }

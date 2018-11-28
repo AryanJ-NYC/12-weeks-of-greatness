@@ -13,6 +13,7 @@ const config = {
 const app = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
 
 const db = firebase.firestore(app);
+db.settings({ timestampsInSnapshots: true });
 const base = rebase.createClass(db);
 
 export default base;
