@@ -1,5 +1,6 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import { User } from 'firebase';
 import App, { Container } from 'next/app';
 import React from 'react';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -26,7 +27,7 @@ class MyApp extends App {
       jssStyles.parentNode.removeChild(jssStyles);
     }
     const { dispatch } = this.props.reduxStore;
-    rebase.initializedApp.auth().onAuthStateChanged(user => {
+    rebase.initializedApp.auth().onAuthStateChanged((user: User) => {
       dispatch(setUser(user));
       this.setState({ isLoading: false });
     });
