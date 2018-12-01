@@ -39,7 +39,7 @@ export default abstract class AuthComponent extends Component {
         <Snackbar
           handleClose={this.handleSnackbarClose}
           isOpen={!!this.state.err}
-          message={this.state.err?.message }
+          message={this.state.err?.message}
         />
       </>
     );

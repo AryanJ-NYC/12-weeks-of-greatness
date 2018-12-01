@@ -1,10 +1,14 @@
+import { User } from 'firebase';
 import { handleActions } from 'redux-actions';
 import { setUser } from '../actions/user';
 
-const initialState = { user: null };
+export interface IUserState {
+  user: User | {};
+}
+const initialState: IUserState = { user: {} };
 
 const reducer = handleActions({
-  [setUser]: (state, action) => ({ ...state, user: action.payload || null }),
+  [setUser]: (state, action) => ({ ...state, user: action.payload || {} }),
 }, initialState);
 
 export default reducer;

@@ -1,5 +1,5 @@
-import { AppBar, createStyles, Toolbar, Typography, withStyles } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import { AppBar, createStyles, Toolbar, Typography, withStyles, WithStyles } from '@material-ui/core';
+import { User } from 'firebase';
 import { isEmpty } from 'lodash';
 import Link from 'next/link';
 import { connect } from 'react-redux';
@@ -20,7 +20,14 @@ const styles = createStyles({
 });
 
 function renderLoggedIn(classes) {
-  return <Typography className={classes.navLink} onClick={signout}>Sign out</Typography>;
+  return (
+    <>
+      <Link href="/dashboard">
+        <Typography className={classes.navLink} component="a">Dashboard</Typography>
+      </Link>
+      <Typography className={classes.navLink} onClick={signout}>Sign out</Typography>
+    </>
+  );
 }
 
 function renderLoggedOut(classes) {
@@ -44,7 +51,10 @@ async function signout() {
   }
 }
 
-function Navbar({ classes, user }: IProps) {
+interface INavbar extends WithStyles<typeof styles> {
+  user: User;
+}
+function Navbar({ classes, user }: INavbar) {
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar} >
@@ -52,10 +62,6 @@ function Navbar({ classes, user }: IProps) {
       </Toolbar>
     </AppBar>
   );
-}
-
-interface IProps {
-  classes: Partial<ClassNameMap<keyof typeof styles>>;
 }
 
 export default connect(

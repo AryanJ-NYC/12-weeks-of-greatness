@@ -1,12 +1,12 @@
 import { User } from 'firebase';
 import { isEmpty } from 'lodash';
 import Router from 'next/router';
-import { Component } from 'react';
+import { Component, ComponentType } from 'react';
 import rebase from '../lib/firebase';
 
-export default function withAuth(AuthComponent: React.Component) {
-  return class Authenticated extends Component {
-    constructor(props) {
+export default function withAuth(AuthComponent: ComponentType<{user: User | {}}>) {
+  return class Authenticated extends Component<any, {isLoading: boolean, user: User | {}}> {
+    constructor(props: any) {
       super(props);
       this.state = {
         isLoading: true,
@@ -27,7 +27,7 @@ export default function withAuth(AuthComponent: React.Component) {
     render() {
       return (
         <div>
-          {this.state.isLoading ? <div>LOADING....</div> : <AuthComponent {...this.props}  user={this.state.user} />}
+          {this.state.isLoading ? <div>LOADING....</div> : <AuthComponent {...this.props} user={this.state.user} />}
         </div>
       );
     }
