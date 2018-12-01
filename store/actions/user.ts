@@ -7,9 +7,11 @@ export const { setUser } = createActions({
   SET_USER: user => user,
 });
 
-export const getUser = () => async (dispatch: Dispatch) => {
-  rebase.initializedApp.auth().onAuthStateChanged((user: User) => {
-    dispatch(setUser(user));
-    Promise.resolve(user);
-  });
-};
+export const getUser = () => (dispatch: Dispatch): Promise<User> => (
+  new Promise(resolve => {
+    rebase.initializedApp.auth().onAuthStateChanged((user: User) => {
+      dispatch(setUser(user));
+      resolve(user);
+    });
+  })
+);
