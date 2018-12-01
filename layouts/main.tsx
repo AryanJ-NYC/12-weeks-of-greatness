@@ -1,8 +1,10 @@
 import Navbar from '../components/Navbar';
 
-export default ({ children }) => (
+const Page: React.SFC<{}> = ({ children }) => (
   <>
     <Navbar />
     {children}
   </>
 );
+
+export default Page;

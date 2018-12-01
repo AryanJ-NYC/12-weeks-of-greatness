@@ -1,4 +1,4 @@
-import { createStyles, Grid, withStyles } from '@material-ui/core';
+import { createStyles, Grid, withStyles, WithStyles } from '@material-ui/core';
 
 const styles = createStyles({
   column: {
@@ -6,7 +6,7 @@ const styles = createStyles({
     flexDirection: 'column',
   },
 });
-function Centered({ children, classes }) {
+const Centered: React.SFC<WithStyles<typeof styles>> = ({ children, classes }) => {
   return (
     <Grid justify="center" container>
       <Grid xs={11} sm={6} lg={4} className={classes.column} item>
@@ -14,6 +14,6 @@ function Centered({ children, classes }) {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default withStyles(styles)(Centered);

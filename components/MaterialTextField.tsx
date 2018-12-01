@@ -1,14 +1,24 @@
 import { TextField } from '@material-ui/core';
-import { asField } from 'informed';
-import { ChangeEvent } from 'react';
+import { asField, FieldApi, FieldState, FormValue } from 'informed';
+import { TextField as ITextField } from 'material-ui';
+import { ChangeEvent, Ref } from 'react';
 
-const MaterialText = asField(({ fieldState, fieldApi, ...props }) => {
+interface IMaterialTextProps {
+  fieldState: FieldState<FormValue>;
+  fieldApi: FieldApi<FormValue>;
+  forwardedRef: Ref<ITextField>;
+  onBlur(event: any): void;
+  onChange(event: any): void;
+  onChange(event: any): void;
+}
+
+const MaterialText = ({ fieldState, fieldApi, ...props }: IMaterialTextProps) => {
   const { value } = fieldState;
   const { setValue, setTouched } = fieldApi;
-  const { onChange, onBlur, initialValue, forwardedRef, ...rest } = props;
+  const { onChange, onBlur, forwardedRef, ...rest } = props;
 
   const handleBlur = (e: React.FormEvent<HTMLInputElement>) => {
-    setTouched();
+    setTouched(true);
     if (onBlur) {
       onBlur(e);
     }
@@ -24,13 +34,12 @@ const MaterialText = asField(({ fieldState, fieldApi, ...props }) => {
     <>
       <TextField
         {...rest}
-        ref={forwardedRef}
         value={!value && value !== 0 ? '' : value}
         onChange={handleChange}
         onBlur={handleBlur}
       />
     </>
   );
-});
+};
 
-export default MaterialText;
+export default asField(MaterialText);

@@ -1,43 +1,43 @@
-import { Button, Typography } from '@material-ui/core';
-import { Form, Scope } from 'informed';
+import { Typography } from '@material-ui/core';
+import { User } from 'firebase';
+import { FormState, FormValue } from 'informed';
+import { isEmpty } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Centered from '../components/Centered';
-import MaterialText from '../components/MaterialTextField';
+import CreateNew12WeeksForm from '../components/CreateNew12WeeksForm';
 import rebase from '../lib/firebase';
 import withAuth from '../lib/withAuth';
+import { getTwelveWeeks } from '../store/actions/twelveWeeks';
+import { ITwelveWeeks } from '../store/reducers/twelveWeeks';
 
-function New12WeekYearFormContent() {
-  return (
-    <Centered>
-      <Scope scope="goals[0]">
-        <MaterialText label="Goal Name" id="goal-name" field="name" type="text" required />
-        <MaterialText label="Tactic Name" id="tactic-name" field="tactics[0].name" type="text" required />
-        <MaterialText
-          label="Start Date"
-          id="start-date"
-          field="startDate"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          required
-        />
-        <Button type="submit">Submit</Button>
-      </Scope>
-    </Centered>
-  );
+interface IDashboardProps {
+  twelveWeeks: ITwelveWeeks[];
+  getTwelveWeeks: () => {};
+  user: User;
 }
+class DashboardPage extends Component<IDashboardProps> {
+  componentDidMount = () => {
+    this.props.getTwelveWeeks();
+  }
 
-class DashboardPage extends Component {
-  handleSubmit = async formState => {
+  handleSubmit = async (formState: FormState<FormValue>) => {
     const { uid } = this.props.user;
-    await rebase.addToCollection(`users/${uid}/goals`, { ...formState });
+    await rebase.addToCollection(`users/${uid}/12weeks`, formState);
+  }
+
+  renderBody() {
+    if (isEmpty(this.props.twelveWeeks)) {
+      return <CreateNew12WeeksForm handleSubmit={this.handleSubmit} />;
+    } else {
+
+    }
   }
 
   render() {
     return (
       <>
         <Typography align="center" variant="h4">Create New 12-Week Year</Typography>
-        <Form component={New12WeekYearFormContent} onSubmit={this.handleSubmit} />
+        {this.renderBody()}
       </>
     );
   }
@@ -45,6 +45,8 @@ class DashboardPage extends Component {
 
 export default connect(
   state => ({
+    twelveWeeks: state.twelveWeeksStore.twelveWeeks,
     user: state.userStore.user,
   }),
+  { getTwelveWeeks }
 )(withAuth(DashboardPage));
