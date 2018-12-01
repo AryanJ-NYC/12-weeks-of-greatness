@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import { Form, Scope } from 'informed';
+import * as moment from 'moment';
 import Centered from '../components/Centered';
 import MaterialText from '../components/MaterialTextField';
 
@@ -15,6 +16,7 @@ function New12WeekYearFormContent() {
         id="start-date"
         field="startDate"
         type="date"
+        value={moment().format('YYYY-MM-DD')}
         InputLabelProps={{ shrink: true }}
         required
       />
