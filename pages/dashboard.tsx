@@ -1,14 +1,15 @@
 import { Typography } from '@material-ui/core';
 import { User } from 'firebase';
 import { FormState, FormValue } from 'informed';
-import { isEmpty } from 'lodash';
+import { isEmpty, sortBy } from 'lodash';
+import * as moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CreateNew12WeeksForm from '../components/CreateNew12WeeksForm';
 import rebase from '../lib/firebase';
 import withAuth from '../lib/withAuth';
 import { getTwelveWeeks } from '../store/actions/twelveWeeks';
-import { ITwelveWeeks } from '../store/reducers/twelveWeeks';
+import { ITwelveWeeks, IGoal, ITactic } from '../store/reducers/twelveWeeks';
 
 interface IDashboardProps {
   twelveWeeks: ITwelveWeeks[];
@@ -26,20 +27,44 @@ class DashboardPage extends Component<IDashboardProps> {
   }
 
   renderBody() {
-    if (isEmpty(this.props.twelveWeeks)) {
-      return <CreateNew12WeeksForm handleSubmit={this.handleSubmit} />;
-    } else {
-
+    const { twelveWeeks } = this.props;
+    const sortedTwelveWeeks = twelveWeeks ? sortBy(twelveWeeks, ['startDate']) : [];
+    const currentTwelveWeeks = sortedTwelveWeeks.length ? sortedTwelveWeeks[0] : null;
+    const twelveWeeksEndDate = moment(currentTwelveWeeks?.startDate).add(12, 'weeks');
+    if (isEmpty(sortedTwelveWeeks) || twelveWeeksEndDate.isBefore(moment())) {
+      return (
+        <>
+          <Typography align="center" variant="h4">Create New 12-Week Year</Typography>
+          <CreateNew12WeeksForm handleSubmit={this.handleSubmit} />
+        </>
+      );
+    } else if (currentTwelveWeeks) {
+      return (
+        <>
+          <div>Start Date: {currentTwelveWeeks.startDate}</div>
+          <div>End Date: {twelveWeeksEndDate.format('YYYY-MM-DD')} </div>
+          <h1>Goals:</h1>
+          {this.renderGoals(currentTwelveWeeks.goals)}
+        </>
+      );
     }
   }
 
+  renderGoals(goals: IGoal[]) {
+    return goals.map(goal => {
+      const { tactics } = goal;
+      return (
+        <>
+          <h2 key={goal.name}>{goal.name}</h2>
+          <h3>Tactics</h3>
+          {tactics.map(tactic => <p key={`tactic${name}`}>{tactic.name}</p>)}
+        </>
+      );
+    });
+  }
+
   render() {
-    return (
-      <>
-        <Typography align="center" variant="h4">Create New 12-Week Year</Typography>
-        {this.renderBody()}
-      </>
-    );
+    return this.renderBody();
   }
 }
 

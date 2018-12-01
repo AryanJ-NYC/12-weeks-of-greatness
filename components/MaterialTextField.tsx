@@ -24,6 +24,7 @@ const MaterialText = ({ fieldState, fieldApi, ...props }: IMaterialTextProps) =>
       onBlur(e);
     }
   };
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
     setValue(e.target.value);
     if (onChange) {
