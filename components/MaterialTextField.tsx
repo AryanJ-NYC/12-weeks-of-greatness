@@ -7,13 +7,14 @@ interface IMaterialTextProps {
   fieldState: FieldState<FormValue>;
   fieldApi: FieldApi<FormValue>;
   forwardedRef: Ref<ITextField>;
+  value?: any;
   onBlur(event: any): void;
   onChange(event: any): void;
   onChange(event: any): void;
 }
 
 const MaterialText = ({ fieldState, fieldApi, ...props }: IMaterialTextProps) => {
-  const { value } = fieldState;
+  const value = fieldState.value || props.value;
   const { setValue, setTouched } = fieldApi;
   const { onChange, onBlur, forwardedRef, ...rest } = props;
 
@@ -31,14 +32,12 @@ const MaterialText = ({ fieldState, fieldApi, ...props }: IMaterialTextProps) =>
   };
 
   return (
-    <>
-      <TextField
-        {...rest}
-        value={!value && value !== 0 ? '' : value}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-    </>
+    <TextField
+      {...rest}
+      value={!value && value !== 0 ? '' : value}
+      onChange={handleChange}
+      onBlur={handleBlur}
+    />
   );
 };
 
