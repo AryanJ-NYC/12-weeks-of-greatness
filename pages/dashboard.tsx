@@ -5,6 +5,7 @@ import { isEmpty, sortBy } from 'lodash';
 import * as moment from 'moment';
 import React, { Component } from 'react';
 import { compose } from 'redux';
+import Centered from '../components/Centered';
 import CreateNew12WeeksForm from '../components/CreateNew12WeeksForm';
 import rebase from '../lib/firebase';
 import withAuth from '../lib/withAuth';
@@ -35,12 +36,12 @@ class DashboardPage extends Component<IDashboardProps> {
       );
     } else if (currentTwelveWeeks) {
       return (
-        <>
+        <Centered>
           <div>Start Date: {currentTwelveWeeks.startDate}</div>
           <div>End Date: {twelveWeeksEndDate.format('YYYY-MM-DD')} </div>
           <h1>Goals:</h1>
           {this.renderGoals(currentTwelveWeeks.goals)}
-        </>
+        </Centered>
       );
     }
   }
@@ -63,4 +64,4 @@ class DashboardPage extends Component<IDashboardProps> {
   }
 }
 
-export default compose(withTwelveWeeks, withAuth)((DashboardPage));
+export default compose(withTwelveWeeks, withAuth)(DashboardPage);

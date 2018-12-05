@@ -17,10 +17,9 @@ export default function withAuth(AuthComponent: ComponentType<{user: User | {}}>
 
     componentDidMount = () => {
       rebase.initializedApp.auth().onAuthStateChanged((user: User) => {
+        this.setState({ user });
         if (!user || isEmpty(user)) {
           Router.push('/login');
-        } else {
-          this.setState({ user });
         }
       });
     }
@@ -28,7 +27,6 @@ export default function withAuth(AuthComponent: ComponentType<{user: User | {}}>
     signout = () => {
       try {
         rebase.initializedApp.auth().signOut();
-        this.setState({ user: {} });
       } catch (err) {
         throw new Error(err);
       }
