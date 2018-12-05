@@ -8,14 +8,12 @@ export const { setTwelveWeeks } = createActions({
 });
 
 export const getTwelveWeeks = () => (dispatch: Dispatch) => {
-  dispatch(setIsLoading(true));
   rebase.initializedApp.auth().onAuthStateChanged(async (user: User) => {
     if (user) {
+      dispatch(setIsLoading(true));
       const { uid } = user;
       const twelveWeeks = await rebase.get(`users/${uid}/12weeks`, {});
       dispatch(setTwelveWeeks(twelveWeeks));
-      dispatch(setIsLoading(false));
-    } else {
       dispatch(setIsLoading(false));
     }
   });

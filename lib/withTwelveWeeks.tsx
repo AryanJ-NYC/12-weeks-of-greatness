@@ -1,5 +1,6 @@
 import { Component, ComponentType } from 'react';
 import { connect } from 'react-redux';
+import { ClipLoader } from 'react-spinners';
 import { getTwelveWeeks } from '../store/actions/twelveWeeks';
 
 export default function withTwelveWeeks(WrappedComponent: ComponentType<{}>) {
@@ -7,9 +8,20 @@ export default function withTwelveWeeks(WrappedComponent: ComponentType<{}>) {
     componentDidMount = () => {
       this.props.getTwelveWeeks();
     }
+
+    renderLoading = () => {
+      return (
+        <ClipLoader
+          sizeUnit="px"
+          size={150}
+          color="#123abc"
+          loading={this.props.isLoading}
+        />
+      );
+    }
     render() {
       return (
-        this.props.isLoading ? 'LOADING' : <WrappedComponent {...this.props} />
+        this.props.isLoading ? this.renderLoading() : <WrappedComponent {...this.props} />
       );
     }
   }
