@@ -2,8 +2,7 @@ import { AppBar, createStyles, Toolbar, Typography, withStyles, WithStyles } fro
 import { User } from 'firebase';
 import { isEmpty } from 'lodash';
 import Link from 'next/link';
-import { connect } from 'react-redux';
-import rebase from '../lib/firebase';
+import withAuth from '../lib/withAuth';
 
 const styles = createStyles({
   navLink: {
@@ -19,7 +18,7 @@ const styles = createStyles({
   },
 });
 
-function renderLoggedIn(classes) {
+function renderLoggedIn(classes, signout) {
   return (
     <>
       <Link href="/dashboard">
@@ -43,29 +42,18 @@ function renderLoggedOut(classes) {
   );
 }
 
-async function signout() {
-  try {
-    await rebase.initializedApp.auth().signOut();
-  } catch (err) {
-    throw new Error(err);
-  }
-}
-
 interface INavbar extends WithStyles<typeof styles> {
+  signout: () => {};
   user: User;
 }
-function Navbar({ classes, user }: INavbar) {
+function Navbar({ classes, signout, user }: INavbar) {
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar} >
-        {isEmpty(user) ? renderLoggedOut(classes) : renderLoggedIn(classes)}
+        {isEmpty(user) ? renderLoggedOut(classes) : renderLoggedIn(classes, signout)}
       </Toolbar>
     </AppBar>
   );
 }
 
-export default connect(
-  state => ({
-    user: state.userStore.user,
-  }),
-)(withStyles(styles)(Navbar));
+export default withAuth(withStyles(styles)(Navbar));
