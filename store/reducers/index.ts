@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import twelveWeeks from './twelveWeeks';
-import user from './user';
+import ui from './ui';
 
 export default combineReducers({
   twelveWeeksStore: twelveWeeks,
-  userStore: user,
+  uiStore: ui,
 });

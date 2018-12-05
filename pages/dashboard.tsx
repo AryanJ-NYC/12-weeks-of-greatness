@@ -4,23 +4,18 @@ import { FormState, FormValue } from 'informed';
 import { isEmpty, sortBy } from 'lodash';
 import * as moment from 'moment';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 import CreateNew12WeeksForm from '../components/CreateNew12WeeksForm';
 import rebase from '../lib/firebase';
 import withAuth from '../lib/withAuth';
-import { getTwelveWeeks } from '../store/actions/twelveWeeks';
-import { ITwelveWeeks, IGoal, ITactic } from '../store/reducers/twelveWeeks';
+import withTwelveWeeks from '../lib/withTwelveWeeks';
+import { IGoal, ITwelveWeeks } from '../store/reducers/twelveWeeks';
 
 interface IDashboardProps {
   twelveWeeks: ITwelveWeeks[];
-  getTwelveWeeks: () => {};
   user: User;
 }
 class DashboardPage extends Component<IDashboardProps> {
-  componentDidMount = () => {
-    this.props.getTwelveWeeks();
-  }
-
   handleSubmit = async (formState: FormState<FormValue>) => {
     const { uid } = this.props.user;
     await rebase.addToCollection(`users/${uid}/12weeks`, formState);
@@ -68,10 +63,4 @@ class DashboardPage extends Component<IDashboardProps> {
   }
 }
 
-export default connect(
-  state => ({
-    twelveWeeks: state.twelveWeeksStore.twelveWeeks,
-    user: state.userStore.user,
-  }),
-  { getTwelveWeeks }
-)(withAuth(DashboardPage));
+export default compose(withTwelveWeeks, withAuth)((DashboardPage));

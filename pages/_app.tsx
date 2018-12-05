@@ -8,7 +8,6 @@ import Meta from '../components/Meta';
 import Page from '../layouts/main';
 import getPageContext from '../lib/getPageContext';
 import withReduxStore from '../lib/withReduxStore';
-import { getUser } from '../store/actions/user';
 
 class MyApp extends App {
   private pageContext: any;
@@ -23,7 +22,6 @@ class MyApp extends App {
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
-    this.props.reduxStore.dispatch(getUser());
   }
 
   render() {
