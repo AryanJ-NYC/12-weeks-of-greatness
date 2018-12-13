@@ -12,9 +12,12 @@ export const getTwelveWeeks = () => (dispatch: Dispatch) => {
     if (user) {
       dispatch(setIsLoading(true));
       const { uid } = user;
-      const twelveWeeks = await rebase.get(`users/${uid}/12weeks`, {});
-      dispatch(setTwelveWeeks(twelveWeeks));
-      dispatch(setIsLoading(false));
+      try {
+        const twelveWeeks = await rebase.get(`users/${uid}/12weeks`, {});
+        dispatch(setTwelveWeeks(twelveWeeks));
+      } finally {
+        dispatch(setIsLoading(false));
+      }
     }
   });
 };
